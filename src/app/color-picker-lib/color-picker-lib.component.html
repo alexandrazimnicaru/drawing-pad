@@ -1,0 +1,17 @@
+<section class="picker">
+  <div 
+    #toggleCanvas
+    class="picker__toggle"
+    [style.background-color]="color"
+    (click)="toggle()">
+  </div>
+
+  <canvas 
+    #canvas
+    [hidden]="!showCanvas"
+    width="230"
+    height="150"
+    class="picker__canvas"
+    (click)="pickColor($event)">
+  </canvas>
+</section>
