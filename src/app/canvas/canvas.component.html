@@ -1,0 +1,15 @@
+<section>
+  <canvas
+    #canvas
+    class="canvas"
+    width="400"
+    height="400">
+  </canvas>
+
+  <button (click)="clear()">Clear</button>
+
+  <app-color-picker
+    [color]="userStrokeStyle"
+    (colorUpdated)="updateColor($event)">
+  </app-color-picker>
+</section>
