@@ -1,15 +1,48 @@
 <section>
-  <canvas
-    #canvas
-    class="canvas"
-    width="400"
-    height="400">
-  </canvas>
+  <main class="canvas">
+    <canvas
+      #canvas
+      class="canvas--main"
+      width="400"
+      height="400">
+    </canvas>
 
-  <button (click)="clear()">Clear</button>
+    <ng-container *ngIf="selectedType === 'line'">
+      <app-canvas-lines
+        class="canvas--overimposed"
+        [userStrokeStyle]="userStrokeStyle"
+        [clearEvents]="clearSubject.asObservable()"
+        (transferLines)="transferLines($event)">
+      </app-canvas-lines>
+    </ng-container>
 
-  <app-color-picker
-    [color]="userStrokeStyle"
-    (colorUpdated)="updateColor($event)">
-  </app-color-picker>
+    <ng-container *ngIf="selectedType === 'circle'">
+      <app-canvas-circles
+        class="canvas--overimposed"
+        [userStrokeStyle]="userStrokeStyle"
+        [clearEvents]="clearSubject.asObservable()"
+        (transferCircles)="transferCircles($event)"></app-canvas-circles>
+    </ng-container>
+  </main>
+
+  <footer>
+    <button (click)="clear()">Clear</button>
+
+    <button
+      [class.is-selected]="selectedType === 'line'"
+      (click)="updateShape('line')">
+      Line
+    </button>
+  
+    <button
+      [class.is-selected]="selectedType === 'circle'"
+      (click)="updateShape('circle')">
+      Circle
+    </button>
+  
+    <app-color-picker
+      [color]="userStrokeStyle"
+      (colorUpdated)="updateColor($event)">
+    </app-color-picker>
+  </footer>
 </section>

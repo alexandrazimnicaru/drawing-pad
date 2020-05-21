@@ -1,4 +1,18 @@
 .canvas {
-  display: block;
-  background: black;
+  position: relative;
+
+  &--main {
+    display: block;
+    background: black;
+  }
+
+  &--overimposed {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.is-selected {
+  background: steelblue;
 }
