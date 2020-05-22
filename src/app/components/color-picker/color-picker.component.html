@@ -1,11 +1,11 @@
-<form>
+<form class="color">
   <ng-container #pickerLibContainer>
   </ng-container>
   
   <input #picker
     *ngIf="showNativePicker"
     type="color"
-    class="color-picker"
+    class="color__picker"
     [attr.value]="color"
     (change)="updateColor($event)" />
 </form>

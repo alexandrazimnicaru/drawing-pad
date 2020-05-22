@@ -15,6 +15,8 @@ import { Circle } from '../../classes/Shapes';
 export class DrawCirclesComponent implements OnInit, OnDestroy {
   @Input() clearEvents: Observable<void>;
   @Input() color: string;
+  @Input() width: number;
+  @Input() height: number;
 
   mouseDownSubs: Subscription;
   eventsClearSubs: Subscription;

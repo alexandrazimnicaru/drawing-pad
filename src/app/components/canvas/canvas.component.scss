@@ -11,8 +11,13 @@
     top: 0;
     left: 0;
   }
-}
 
-.is-selected {
-  background: steelblue;
+  &__menu {
+    float: left;
+  }
+
+  &__clear {
+    margin-top: 5px;
+    float: right;
+  }
 }

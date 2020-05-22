@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, Input, Output, EventEmitter, OnInit, 
 
 import { Subscription, Observable, fromEvent } from 'rxjs';
 
-import { DEFAULT_COLOR } from '../../constants';
+import { DEFAULT_COLOR, DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT } from '../../constants';
 
 @Component({
   selector: 'app-canvas-shape',
@@ -11,11 +11,10 @@ import { DEFAULT_COLOR } from '../../constants';
 })
 export class CanvasShapeComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('canvas') public canvas: ElementRef;
-  @Input() width = 400;
-  @Input() height = 400;
+  @Input() width = DEFAULT_CANVAS_WIDTH;
+  @Input() height = DEFAULT_CANVAS_HEIGHT;
   @Input() clearEvents: Observable<void>;
   @Input('color') set color(value: string) {
-    console.log('updating color', value);
     if (!this.ctx) {
       return;
     }

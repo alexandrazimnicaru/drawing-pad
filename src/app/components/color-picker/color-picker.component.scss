@@ -1,4 +1,10 @@
-.color-picker {
-  width: 50px;
-  height: 25px;
+.color {
+  display: inline-block;
+  padding-right: 10px;
+  vertical-align: sub;
+
+  &__picker {
+    width: 50px;
+    height: 25px;
+  }
 }

@@ -3,14 +3,16 @@
     <canvas
       #canvas
       class="canvas--main"
-      width="400"
-      height="400">
+      width="{{ width }}"
+      height="{{ height }}">
     </canvas>
 
     <ng-container *ngIf="selectedType === 'line'">
       <app-draw-lines
         class="canvas--overimposed"
         [color]="userStrokeStyle"
+        [width]="width"
+        [height]="height"
         [clearEvents]="clearSubject.asObservable()"
         (transferLines)="transferShapes($event)">
       </app-draw-lines>
@@ -20,6 +22,8 @@
       <app-draw-circles
         class="canvas--overimposed"
         [color]="userStrokeStyle"
+        [width]="width"
+        [height]="height"
         [clearEvents]="clearSubject.asObservable()"
         (transferCircles)="transferShapes($event)">
       </app-draw-circles>
@@ -27,23 +31,39 @@
   </main>
 
   <footer>
-    <button (click)="clear()">Clear</button>
+    <div class="canvas__menu">
+      <app-color-picker
+        [color]="userStrokeStyle"
+        (colorUpdated)="updateColor($event)">
+      </app-color-picker>
 
-    <button
-      [class.is-selected]="selectedType === 'line'"
-      (click)="updateShape('line')">
-      Line
-    </button>
-  
-    <button
-      [class.is-selected]="selectedType === 'circle'"
-      (click)="updateShape('circle')">
-      Circle
-    </button>
-  
-    <app-color-picker
-      [color]="userStrokeStyle"
-      (colorUpdated)="updateColor($event)">
-    </app-color-picker>
+      <button
+        mat-icon-button
+        color="{{ selectedType === 'line' ? 'accent' : 'primary' }}"
+        disableRipple="true"
+        aria-label="Draw a line"
+        (click)="updateShape('line')">
+        <mat-icon>gesture</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        color="{{ selectedType === 'circle' ? 'accent' : 'primary' }}"
+        disableRipple="true"
+        aria-label="Draw a circle"
+        [class.is-selected]="selectedType === 'circle'"
+        (click)="updateShape('circle')">
+        <mat-icon>radio_button_unchecked_icon</mat-icon>
+      </button>
+    </div>
+    
+    <div class="canvas__clear">
+      <button
+        mat-raised-button
+        color="secondary"
+        (click)="clear()">
+        Clear
+      </button>
+    </div>
   </footer>
 </section>

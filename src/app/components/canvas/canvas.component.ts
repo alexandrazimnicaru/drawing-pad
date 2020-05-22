@@ -1,4 +1,6 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, Input, ChangeDetectorRef } from '@angular/core';
+import {
+  Component, ViewChild, ElementRef, OnInit, AfterViewInit, Input, ChangeDetectorRef
+} from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { StorageService } from '../../services/storage.service';
@@ -6,17 +8,17 @@ import { ShapesService } from '../../services/shapes.service';
 
 import { Line, Circle } from '../../classes/Shapes';
 
-import { DEFAULT_COLOR } from '../../constants';
+import { DEFAULT_COLOR, DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT} from '../../constants';
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss']
 })
-export class CanvasComponent implements AfterViewInit {
+export class CanvasComponent implements AfterViewInit, OnInit {
   @ViewChild('canvas') public canvas: ElementRef;
-  @Input() width = 400;
-  @Input() height = 400;
+  @Input() width = DEFAULT_CANVAS_WIDTH;
+  @Input() height = DEFAULT_CANVAS_HEIGHT;
 
   ctx: CanvasRenderingContext2D;
   canvasOffsetLeft: number;
@@ -31,6 +33,12 @@ export class CanvasComponent implements AfterViewInit {
     private storageService: StorageService,
     private shapesService: ShapesService
   ) { }
+
+  setDimensions() {
+    this.width = window.innerWidth - 40;
+    this.height = window.innerHeight - 140;
+    this.clear();
+  }
 
   clear() {
     if (!this.ctx) {
@@ -89,6 +97,10 @@ export class CanvasComponent implements AfterViewInit {
     });
 
     this.cd.detectChanges();
+  }
+
+  ngOnInit() {
+    this.setDimensions();
   }
 
   ngAfterViewInit() {
