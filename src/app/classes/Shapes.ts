@@ -11,13 +11,24 @@ export interface Segment {
 
 export interface Shape {
   type: string;
+  color: string;
   draw: Function;
+  drawEntireShape: Function;
+  getShapeToSave: Function;
+  save: Function;
+}
+
+export interface ShapeInitOptions {
+  type: 'line' | 'circle';
+  color: string;
+  segments?: Segment[];
+  start?: Position;
+  radius?: number;
 }
 
 export interface Line extends Shape {
   segments: Segment[];
   addSegment: Function;
-  drawEntireLine: Function;
 }
 
 export interface Circle extends Shape {
@@ -25,17 +36,15 @@ export interface Circle extends Shape {
   end: Position | null;
   radius: number;
   getDistance: Function;
-  drawEntireCircle: Function;
 }
 
 export interface SavedLine {
-  type: 'line';
   segments: Segment[];
+  color: string;
 }
 
 export interface SavedCircle {
-  type: 'circle';
   start: Position;
-  end: Position;
   radius: number;
+  color: string;
 }

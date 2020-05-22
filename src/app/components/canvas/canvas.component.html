@@ -8,20 +8,19 @@
     </canvas>
 
     <ng-container *ngIf="selectedType === 'line'">
-      <app-canvas-lines
+      <app-draw-lines
         class="canvas--overimposed"
-        [userStrokeStyle]="userStrokeStyle"
         [clearEvents]="clearSubject.asObservable()"
-        (transferLines)="transferLines($event)">
-      </app-canvas-lines>
+        (transferLines)="transferShapes($event)">
+      </app-draw-lines>
     </ng-container>
 
     <ng-container *ngIf="selectedType === 'circle'">
-      <app-canvas-circles
+      <app-draw-circles
         class="canvas--overimposed"
-        [userStrokeStyle]="userStrokeStyle"
         [clearEvents]="clearSubject.asObservable()"
-        (transferCircles)="transferCircles($event)"></app-canvas-circles>
+        (transferCircles)="transferShapes($event)">
+      </app-draw-circles>
     </ng-container>
   </main>
 

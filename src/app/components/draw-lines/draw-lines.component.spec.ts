@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CanvasCirclesComponent } from './canvas-circles.component';
+import { DrawLinesComponent } from './draw-lines.component';
 
-describe('CanvasCirclesComponent', () => {
-  let component: CanvasCirclesComponent;
-  let fixture: ComponentFixture<CanvasCirclesComponent>;
+describe('CanvasLinesComponent', () => {
+  let component: DrawLinesComponent;
+  let fixture: ComponentFixture<DrawLinesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CanvasCirclesComponent ]
+      declarations: [ DrawLinesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CanvasCirclesComponent);
+    fixture = TestBed.createComponent(DrawLinesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -43,7 +43,6 @@ export class ColorPickerComponent implements AfterViewInit {
       this.showNativePicker = false;
       const { ColorPickerLibComponent } = await import('../color-picker-lib/color-picker-lib.component');
       const colorPickerLibFactory = this.cfr.resolveComponentFactory(ColorPickerLibComponent);
-      console.log(this.pickerLibContainer);
       this.pickerLibContainer.createComponent(colorPickerLibFactory, null, this.injector);
     }
   }
