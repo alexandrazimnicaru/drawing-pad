@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { StorageService } from '../../services/storage.service';
@@ -27,6 +27,7 @@ export class CanvasComponent implements AfterViewInit {
   clearSubject: Subject<void> = new Subject<void>();
 
   constructor(
+    private cd: ChangeDetectorRef,
     private storageService: StorageService,
     private shapesService: ShapesService
   ) { }
@@ -47,6 +48,10 @@ export class CanvasComponent implements AfterViewInit {
     }
 
     shapes.forEach((shape) => {
+      if (shape.color && shape.color !== this.userStrokeStyle) {
+        this.updateColor(shape.color);
+      }
+
       shape.drawEntireShape(this.ctx);
     });
   }
@@ -75,9 +80,15 @@ export class CanvasComponent implements AfterViewInit {
       if (!shape) {
         return;
       }
+
+      if (shape.color && shape.color !== this.userStrokeStyle) {
+        this.updateColor(shape.color);
+      }
   
       shape.drawEntireShape(this.ctx);
     });
+
+    this.cd.detectChanges();
   }
 
   ngAfterViewInit() {

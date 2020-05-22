@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
 import { ShapesService } from '../../services/shapes.service';
 
@@ -12,10 +12,12 @@ import { Circle } from '../../classes/Shapes';
   templateUrl: './draw-circles.component.html',
   styleUrls: ['./draw-circles.component.scss']
 })
-export class DrawCirclesComponent implements OnDestroy {
-  @Input() clearEvents: Observable<void>;;
+export class DrawCirclesComponent implements OnInit, OnDestroy {
+  @Input() clearEvents: Observable<void>;
+  @Input() color: string;
 
   mouseDownSubs: Subscription;
+  eventsClearSubs: Subscription;
 
   circle: Circle;
   circles: Circle[] = [];
@@ -51,7 +53,7 @@ export class DrawCirclesComponent implements OnDestroy {
             offsetY: startRes.clientY - canvasOffsetTop
           };
 
-          this.circle = this.shapesService.createCircle(pos);
+          this.circle = this.shapesService.createCircle(pos, 0, this.color);
     
           // after a mouse down, record all mouse moves
           return fromEvent(canvasEl, 'mousemove')
@@ -73,13 +75,26 @@ export class DrawCirclesComponent implements OnDestroy {
   
         // draw all circles drawn before since we cleared the canvas
         this.circles.forEach((circle) => {
+          // temporarily update the canvas to use the circle color
+          if (circle.color !== this.color) {
+            ctx.strokeStyle = circle.color;
+          }
           circle.drawEntireShape(ctx);
         });
+        // update canvas color to current color
+        ctx.strokeStyle = this.color;
       });
+  }
+
+  ngOnInit(){
+    this.eventsClearSubs = this.clearEvents.subscribe(() => {
+      this.circles = [];
+    });
   }
 
   ngOnDestroy() {
     this.transferCircles.emit(this.circles);
     this.mouseDownSubs.unsubscribe();
+    this.eventsClearSubs.unsubscribe();
   }
 }

@@ -14,6 +14,7 @@ import { Line } from '../../classes/Shapes';
 })
 export class DrawLinesComponent implements OnDestroy {
   @Input() clearEvents: Observable<void>;
+  @Input() color: string;
 
   mouseDownSubs: Subscription;
 
@@ -46,7 +47,8 @@ export class DrawLinesComponent implements OnDestroy {
     this.mouseDownSubs = fromEvent(canvasEl, 'mousedown')
     .pipe(
       switchMap((e) => {
-        this.line = this.shapesService.createLine();
+        console.log(this.color);
+        this.line = this.shapesService.createLine([], this.color);
 
         // after a mouse down, record all mouse moves
         return fromEvent(canvasEl, 'mousemove')

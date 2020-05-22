@@ -10,6 +10,7 @@
     <ng-container *ngIf="selectedType === 'line'">
       <app-draw-lines
         class="canvas--overimposed"
+        [color]="userStrokeStyle"
         [clearEvents]="clearSubject.asObservable()"
         (transferLines)="transferShapes($event)">
       </app-draw-lines>
@@ -18,6 +19,7 @@
     <ng-container *ngIf="selectedType === 'circle'">
       <app-draw-circles
         class="canvas--overimposed"
+        [color]="userStrokeStyle"
         [clearEvents]="clearSubject.asObservable()"
         (transferCircles)="transferShapes($event)">
       </app-draw-circles>

@@ -13,8 +13,15 @@ export class CanvasShapeComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('canvas') public canvas: ElementRef;
   @Input() width = 400;
   @Input() height = 400;
-  @Input() userStrokeStyle = DEFAULT_COLOR;
   @Input() clearEvents: Observable<void>;
+  @Input('color') set color(value: string) {
+    console.log('updating color', value);
+    if (!this.ctx) {
+      return;
+    }
+    this.userStrokeStyle = value;
+    this.ctx.strokeStyle = value;
+  }
 
   mouseUpSubs: Subscription;
   mouseLeaveSubs: Subscription;
@@ -23,6 +30,7 @@ export class CanvasShapeComponent implements AfterViewInit, OnInit, OnDestroy {
   ctx: CanvasRenderingContext2D;
   canvasOffsetLeft: number;
   canvasOffsetTop: number;
+  userStrokeStyle = DEFAULT_COLOR;
 
   @Output() canvasReady = new EventEmitter();
   @Output() shapeDrawn = new EventEmitter();
