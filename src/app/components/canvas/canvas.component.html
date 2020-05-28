@@ -28,6 +28,17 @@
         (transferCircles)="transferShapes($event)">
       </app-draw-circles>
     </ng-container>
+
+    <ng-container *ngIf="selectedType === 'square'">
+      <app-draw-squares
+        class="canvas--overimposed"
+        [color]="userStrokeStyle"
+        [width]="width"
+        [height]="height"
+        [clearEvents]="clearSubject.asObservable()"
+        (transferSquares)="transferShapes($event)">
+      </app-draw-squares>
+    </ng-container>
   </main>
 
   <footer>
@@ -54,6 +65,16 @@
         [class.is-selected]="selectedType === 'circle'"
         (click)="updateShape('circle')">
         <mat-icon>radio_button_unchecked_icon</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        color="{{ selectedType === 'square' ? 'accent' : 'primary' }}"
+        disableRipple="true"
+        aria-label="Draw a square"
+        [class.is-selected]="selectedType === 'square'"
+        (click)="updateShape('square')">
+        <mat-icon>check_box_outline_blank</mat-icon>
       </button>
     </div>
     

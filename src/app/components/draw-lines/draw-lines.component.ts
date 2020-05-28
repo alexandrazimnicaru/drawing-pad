@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
 import { ShapesService } from '../../services/shapes.service';
 
@@ -12,13 +12,14 @@ import { Line } from '../../classes/Shapes';
   templateUrl: './draw-lines.component.html',
   styleUrls: ['./draw-lines.component.scss']
 })
-export class DrawLinesComponent implements OnDestroy {
+export class DrawLinesComponent implements OnInit, OnDestroy {
   @Input() clearEvents: Observable<void>;
   @Input() color: string;
   @Input() width: number;
   @Input() height: number;
 
   mouseDownSubs: Subscription;
+  eventsClearSubs: Subscription;
 
   line: Line;
   lines: Line[] = [];
@@ -76,6 +77,12 @@ export class DrawLinesComponent implements OnDestroy {
       };
 
       this.line.draw(prevPos, currentPos, ctx);
+    });
+  }
+
+  ngOnInit(){
+    this.eventsClearSubs = this.clearEvents.subscribe(() => {
+      this.lines = [];
     });
   }
 

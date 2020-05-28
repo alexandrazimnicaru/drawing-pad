@@ -24,6 +24,7 @@ export interface ShapeInitOptions {
   segments?: Segment[];
   start?: Position;
   radius?: number;
+  side?: number;
 }
 
 export interface Line extends Shape {
@@ -38,6 +39,12 @@ export interface Circle extends Shape {
   getDistance: Function;
 }
 
+export interface Square extends Shape {
+  start: Position;
+  end: Position | null;
+  side: number;
+}
+
 export interface SavedLine {
   segments: Segment[];
   color: string;
@@ -46,5 +53,10 @@ export interface SavedLine {
 export interface SavedCircle {
   start: Position;
   radius: number;
+  color: string;
+}
+export interface SavedSquare {
+  start: Position;
+  side: number;
   color: string;
 }
