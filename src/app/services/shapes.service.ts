@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { StorageService } from './storage.service';
 
-import { Position, Line, Segment, Circle, ShapeInitOptions, Square } from '../classes/Shapes';
+import { Position, Line, Segment, Circle, ShapeInitOptions, Square, Rectangle } from '../classes/Shapes';
 
 import { DEFAULT_COLOR } from '../constants';
 
@@ -23,6 +23,8 @@ export class ShapesService {
       return this.createCircle(init.start, init.radius, init.color || DEFAULT_COLOR);
     } else if (init.start && init.side) {
       return this.createSquare(init.start, init.side, init.color || DEFAULT_COLOR);
+    } else if (init.start && init.sideX && init.sideY) {
+      return this.createRectangle(init.start, init.sideX, init.sideY, init.color || DEFAULT_COLOR);
     }
   
     return null;
@@ -163,6 +165,56 @@ export class ShapesService {
         saved = saved.concat([{
           start: this.start,
           side: this.side,
+          color: this.color
+        }]);
+        localStorage.setItem('drawing-pad', JSON.stringify(saved));
+      }
+    }
+  }
+
+  createRectangle = function(start: Position, sideX: number = 0, sideY: number = 0, color = DEFAULT_COLOR): Rectangle {
+    const storage = this.storageService;
+    return {
+      type: 'square',
+      color,
+      start,
+      end: { ...start },
+      sideX,
+      sideY,
+      draw(currPos: Position, ctx, width: number, height: number) {
+        if (!ctx) {
+          return;
+        }
+
+        this.end = currPos;
+        this.sideX = Math.abs(this.end.offsetX - this.start.offsetX) * 2;
+        this.sideY = Math.abs(this.end.offsetY - this.start.offsetY) * 2;
+        ctx.clearRect(0, 0, width, height);
+    
+        ctx.beginPath();
+        ctx.strokeRect(this.start.offsetX - this.sideX / 2, this.start.offsetY - this.sideY / 2, this.sideX, this.sideY);
+        ctx.stroke();
+      },
+      drawEntireShape(ctx) {
+        ctx.beginPath();
+        ctx.strokeRect(this.start.offsetX - this.sideX / 2, this.start.offsetY - this.sideY / 2, this.sideX, this.sideY);
+        ctx.stroke();
+      },
+      getShapeToSave() {
+        return {
+          type: this.type,
+          start: this.start,
+          sideX: this.sideX,
+          sideY: this.sideY
+        }
+      },
+      save() {
+        let saved = storage.getStoredShapes();
+  
+        saved = saved.concat([{
+          start: this.start,
+          sideX: this.sideX,
+          sideY: this.sideY,
           color: this.color
         }]);
         localStorage.setItem('drawing-pad', JSON.stringify(saved));

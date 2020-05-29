@@ -25,6 +25,8 @@ export interface ShapeInitOptions {
   start?: Position;
   radius?: number;
   side?: number;
+  sideX?: number;
+  sideY?: number;
 }
 
 export interface Line extends Shape {
@@ -45,6 +47,13 @@ export interface Square extends Shape {
   side: number;
 }
 
+export interface Rectangle extends Shape {
+  start: Position;
+  end: Position | null;
+  sideX: number;
+  sideY: number;
+}
+
 export interface SavedLine {
   segments: Segment[];
   color: string;
@@ -58,5 +67,12 @@ export interface SavedCircle {
 export interface SavedSquare {
   start: Position;
   side: number;
+  color: string;
+}
+
+export interface SavedRectangle {
+  start: Position;
+  sideX: number;
+  sideY: number;
   color: string;
 }

@@ -39,6 +39,17 @@
         (transferSquares)="transferShapes($event)">
       </app-draw-squares>
     </ng-container>
+
+    <ng-container *ngIf="selectedType === 'rectangle'">
+      <app-draw-rectangles
+        class="canvas--overimposed"
+        [color]="userStrokeStyle"
+        [width]="width"
+        [height]="height"
+        [clearEvents]="clearSubject.asObservable()"
+        (transferRectangles)="transferShapes($event)">
+      </app-draw-rectangles>
+    </ng-container>
   </main>
 
   <footer>
@@ -75,6 +86,16 @@
         [class.is-selected]="selectedType === 'square'"
         (click)="updateShape('square')">
         <mat-icon>check_box_outline_blank</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        color="{{ selectedType === 'rectangle' ? 'accent' : 'primary' }}"
+        disableRipple="true"
+        aria-label="Draw a rectangle"
+        [class.is-selected]="selectedType === 'rectangle'"
+        (click)="updateShape('rectangle')">
+        <mat-icon>crop_landscape</mat-icon>
       </button>
     </div>
     

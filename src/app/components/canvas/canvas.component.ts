@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { StorageService } from '../../services/storage.service';
 import { ShapesService } from '../../services/shapes.service';
 
-import { Line, Circle, Square } from '../../classes/Shapes';
+import { Line, Circle, Square, Rectangle } from '../../classes/Shapes';
 
 import { DEFAULT_COLOR, DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT} from '../../constants';
 
@@ -50,7 +50,7 @@ export class CanvasComponent implements AfterViewInit, OnInit {
     this.storageService.removeStoredShapes();
   }
 
-  transferShapes(shapes: Line[] | Circle[] | Square[]) {
+  transferShapes(shapes: Line[] | Circle[] | Square[] | Rectangle[]) {
     if (!shapes || !shapes.length || !this.ctx) {
       return;
     }
@@ -73,7 +73,7 @@ export class CanvasComponent implements AfterViewInit, OnInit {
     this.ctx.strokeStyle = color;
   }
 
-  updateShape(type: 'line' | 'circle' | 'square') {
+  updateShape(type: 'line' | 'circle' | 'square' | 'rectangle') {
     this.selectedType = type || 'line';
   }
 

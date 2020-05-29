@@ -11,6 +11,8 @@ import { CanvasShapeComponent } from './components/canvas-shape/canvas-shape.com
 import { DrawCirclesComponent } from './components/draw-circles/draw-circles.component';
 import { DrawSquaresComponent } from './components/draw-squares/draw-squares.component';
 import { DrawLinesComponent } from './components/draw-lines/draw-lines.component';
+import { DrawRectanglesComponent } from './components/draw-rectangles/draw-rectangles.component';
+
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -25,7 +27,8 @@ import { MatIconModule } from '@angular/material/icon';
     CanvasShapeComponent,
     DrawCirclesComponent,
     DrawLinesComponent,
-    DrawSquaresComponent
+    DrawSquaresComponent,
+    DrawRectanglesComponent
   ],
   imports: [
     BrowserModule,
