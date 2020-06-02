@@ -10,45 +10,48 @@
     <ng-container *ngIf="selectedType === 'line'">
       <app-draw-lines
         class="canvas--overimposed"
+        [clearEvents]="clearSubject.asObservable()"
         [color]="userStrokeStyle"
         [width]="width"
         [height]="height"
-        [clearEvents]="clearSubject.asObservable()"
-        (transferLines)="transferShapes($event)">
+        (transferShapes)="transferShapes($event)">
       </app-draw-lines>
     </ng-container>
 
     <ng-container *ngIf="selectedType === 'circle'">
-      <app-draw-circles
+      <app-draw
         class="canvas--overimposed"
+        [clearEvents]="clearSubject.asObservable()"
+        [type]="'circle'"
         [color]="userStrokeStyle"
         [width]="width"
         [height]="height"
-        [clearEvents]="clearSubject.asObservable()"
-        (transferCircles)="transferShapes($event)">
-      </app-draw-circles>
+        (transferShapes)="transferShapes($event)">
+      </app-draw>
     </ng-container>
 
     <ng-container *ngIf="selectedType === 'square'">
-      <app-draw-squares
+      <app-draw
         class="canvas--overimposed"
+        [clearEvents]="clearSubject.asObservable()"
+        [type]="'square'"
         [color]="userStrokeStyle"
         [width]="width"
         [height]="height"
-        [clearEvents]="clearSubject.asObservable()"
-        (transferSquares)="transferShapes($event)">
-      </app-draw-squares>
+        (transferShapes)="transferShapes($event)">
+      </app-draw>
     </ng-container>
 
     <ng-container *ngIf="selectedType === 'rectangle'">
-      <app-draw-rectangles
+      <app-draw
         class="canvas--overimposed"
+        [clearEvents]="clearSubject.asObservable()"
+        [type]="'rectangle'"
         [color]="userStrokeStyle"
         [width]="width"
         [height]="height"
-        [clearEvents]="clearSubject.asObservable()"
-        (transferRectangles)="transferShapes($event)">
-      </app-draw-rectangles>
+        (transferShapes)="transferShapes($event)">
+      </app-draw>
     </ng-container>
   </main>
 

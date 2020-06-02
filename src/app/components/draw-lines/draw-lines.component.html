@@ -1,8 +1,6 @@
-<app-canvas-shape
-  [clearEvents]="clearEvents"
-  [color]="color"
-  [width]="width"
-  [height]="height"
-  (canvasReady)="captureEvents($event)"
-  (shapeDrawn)="clearLine()">
-</app-canvas-shape>
+<canvas
+  #canvas
+  class="canvas"
+  width="{{ width }}"
+  height="{{ height }}">
+</canvas>

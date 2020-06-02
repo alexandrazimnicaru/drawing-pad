@@ -1,44 +1,23 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ShapesService } from '../../services/shapes.service';
 
-import { fromEvent, Subscription, Observable } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 
-import { Line } from '../../classes/Shapes';
+import { DrawComponent } from '../draw/draw.component';
 
 @Component({
   selector: 'app-draw-lines',
   templateUrl: './draw-lines.component.html',
   styleUrls: ['./draw-lines.component.scss']
 })
-export class DrawLinesComponent implements OnInit, OnDestroy {
-  @Input() clearEvents: Observable<void>;
-  @Input() color: string;
-  @Input() width: number;
-  @Input() height: number;
-
-  mouseDownSubs: Subscription;
-  eventsClearSubs: Subscription;
-
-  line: Line;
-  lines: Line[] = [];
-
-  @Output() transferLines = new EventEmitter();
-
-  constructor(private shapesService: ShapesService) { }
-
-  clearLine() {
-    if (!this.line) {
-      return;
-    }
-
-    this.line.save();
-    this.lines.push({ ...this.line });
-    this.line = null;
+export class DrawLinesComponent extends DrawComponent {
+  constructor(shapesService: ShapesService) {
+    super(shapesService);
   }
 
-  captureEvents({ canvasEl, ctx }) {
+  captureStartDrawEvents(canvasEl, ctx) {
     if (!canvasEl || !ctx) {
       return;
     }
@@ -50,7 +29,7 @@ export class DrawLinesComponent implements OnInit, OnDestroy {
     this.mouseDownSubs = fromEvent(canvasEl, 'mousedown')
     .pipe(
       switchMap((e) => {
-        this.line = this.shapesService.createLine([], this.color);
+        this.shape = this.shapesService.createLine([], this.userStrokeStyle);
 
         // after a mouse down, record all mouse moves
         return fromEvent(canvasEl, 'mousemove')
@@ -76,19 +55,8 @@ export class DrawLinesComponent implements OnInit, OnDestroy {
         offsetY: res[1].clientY - canvasOffsetTop
       };
 
-      this.line.draw(prevPos, currentPos, ctx);
+      this.shape.draw(prevPos, currentPos, ctx);
     });
-  }
-
-  ngOnInit(){
-    this.eventsClearSubs = this.clearEvents.subscribe(() => {
-      this.lines = [];
-    });
-  }
-
-  ngOnDestroy() {
-    this.transferLines.emit(this.lines);
-    this.mouseDownSubs.unsubscribe();
   }
 }
   

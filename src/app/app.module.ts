@@ -7,11 +7,8 @@ import { ShapesService } from './services/shapes.service';
 import { AppComponent } from './app.component';
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { ColorPickerComponent } from './components/color-picker/color-picker.component';
-import { CanvasShapeComponent } from './components/canvas-shape/canvas-shape.component';
-import { DrawCirclesComponent } from './components/draw-circles/draw-circles.component';
-import { DrawSquaresComponent } from './components/draw-squares/draw-squares.component';
+import { DrawComponent } from './components/draw/draw.component';
 import { DrawLinesComponent } from './components/draw-lines/draw-lines.component';
-import { DrawRectanglesComponent } from './components/draw-rectangles/draw-rectangles.component';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -24,11 +21,8 @@ import { MatIconModule } from '@angular/material/icon';
     AppComponent,
     CanvasComponent,
     ColorPickerComponent,
-    CanvasShapeComponent,
-    DrawCirclesComponent,
+    DrawComponent,
     DrawLinesComponent,
-    DrawSquaresComponent,
-    DrawRectanglesComponent
   ],
   imports: [
     BrowserModule,

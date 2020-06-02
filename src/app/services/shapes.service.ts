@@ -13,21 +13,28 @@ export class ShapesService {
   constructor(private storageService: StorageService) { }
 
   createShape(init: ShapeInitOptions) {
-    if (!init) {
+    if (!init || !init.type) {
       return null;
     }
-  
-    if (init.segments && init.segments.length) {
-      return this.createLine(init.segments, init.color || DEFAULT_COLOR);
-    } else if (init.start && init.radius) {
-      return this.createCircle(init.start, init.radius, init.color || DEFAULT_COLOR);
-    } else if (init.start && init.side) {
-      return this.createSquare(init.start, init.side, init.color || DEFAULT_COLOR);
-    } else if (init.start && init.sideX && init.sideY) {
-      return this.createRectangle(init.start, init.sideX, init.sideY, init.color || DEFAULT_COLOR);
+
+    if (init.type === 'line') {
+      return this.createLine(init.segments || [], init.color || DEFAULT_COLOR);
     }
-  
-    return null;
+
+    if (!init.start) {
+      return null;
+    }
+
+    switch(init.type) {
+      case 'circle':
+        return this.createCircle(init.start, init.radius || 0, init.color || DEFAULT_COLOR);
+      case 'square':
+        return this.createSquare(init.start, init.side || 0, init.color || DEFAULT_COLOR);
+      case 'rectangle':
+        return this.createRectangle(init.start, init.sideX || 0, init.sideY || 0, init.color || DEFAULT_COLOR);
+      default:
+        return null;
+    }
   }
 
   createLine(segments: Segment[] = [], color = DEFAULT_COLOR): Line {
@@ -58,15 +65,10 @@ export class ShapesService {
           this.draw(segment.start, segment.stop, ctx);
         })
       },
-      getShapeToSave() {
-        return {
-          type: this.type,
-          segments: this.segments
-        }
-      },
       save() {
         let saved = storage.getStoredShapes();
         saved = saved.concat([{
+          type: this.type,
           segments: this.segments,
           color: this.color
         }]);
@@ -104,19 +106,12 @@ export class ShapesService {
         ctx.arc(this.end.offsetX, this.end.offsetY, this.radius, 0, 2 * Math.PI);
         ctx.stroke();
       },
-      getShapeToSave() {
-        return {
-          type: this.type,
-          start: this.start,
-          end: this.end,
-          radius: this.radius
-        }
-      },
       save() {
         let saved = storage.getStoredShapes();
   
         // we need the end offset to draw the circle in one go 
         saved = saved.concat([{
+          type: this.type,
           start: this.end,
           radius: this.radius,
           color: this.color
@@ -152,17 +147,11 @@ export class ShapesService {
         ctx.strokeRect(this.start.offsetX - this.side / 2, this.start.offsetY - this.side / 2, this.side, this.side);
         ctx.stroke();
       },
-      getShapeToSave() {
-        return {
-          type: this.type,
-          start: this.start,
-          side: this.side
-        }
-      },
       save() {
         let saved = storage.getStoredShapes();
   
         saved = saved.concat([{
+          type: this.type,
           start: this.start,
           side: this.side,
           color: this.color
@@ -175,7 +164,7 @@ export class ShapesService {
   createRectangle = function(start: Position, sideX: number = 0, sideY: number = 0, color = DEFAULT_COLOR): Rectangle {
     const storage = this.storageService;
     return {
-      type: 'square',
+      type: 'rectangle',
       color,
       start,
       end: { ...start },
@@ -200,18 +189,11 @@ export class ShapesService {
         ctx.strokeRect(this.start.offsetX - this.sideX / 2, this.start.offsetY - this.sideY / 2, this.sideX, this.sideY);
         ctx.stroke();
       },
-      getShapeToSave() {
-        return {
-          type: this.type,
-          start: this.start,
-          sideX: this.sideX,
-          sideY: this.sideY
-        }
-      },
       save() {
         let saved = storage.getStoredShapes();
   
         saved = saved.concat([{
+          type: this.type,
           start: this.start,
           sideX: this.sideX,
           sideY: this.sideY,

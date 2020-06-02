@@ -14,12 +14,11 @@ export interface Shape {
   color: string;
   draw: Function;
   drawEntireShape: Function;
-  getShapeToSave: Function;
   save: Function;
 }
 
 export interface ShapeInitOptions {
-  type: 'line' | 'circle';
+  type: 'line' | 'circle' | 'square' | 'rectangle';
   color: string;
   segments?: Segment[];
   start?: Position;
@@ -55,22 +54,26 @@ export interface Rectangle extends Shape {
 }
 
 export interface SavedLine {
+  type: string;
   segments: Segment[];
   color: string;
 }
 
 export interface SavedCircle {
+  type: string;
   start: Position;
   radius: number;
   color: string;
 }
 export interface SavedSquare {
+  type: string;
   start: Position;
   side: number;
   color: string;
 }
 
 export interface SavedRectangle {
+  type: string;
   start: Position;
   sideX: number;
   sideY: number;
